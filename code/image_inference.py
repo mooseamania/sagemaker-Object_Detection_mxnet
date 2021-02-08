@@ -26,10 +26,10 @@ def get_ctx():
 #global variables and model loader at initialization only
 ctx = get_ctx()[0]
 
-SHAPE = 300
+SHAPE = 512
 input_shapes=[('data', (1, 3, SHAPE, SHAPE))]
 confidence_threshold = 0.15
-CLASSES = ['nozzle', 'black_brush', 'white_brush']
+CLASSES = ['holes', 'resin', 'malformed']
 
 param_path=os.path.join('/ml_model', 'deploy_model_algo_1')
 sym, arg_params, aux_params = mx.model.load_checkpoint(param_path, 0)
@@ -39,6 +39,8 @@ mod.set_params(arg_params, aux_params)
 
 
 def predict_from_file(filepath, reshape=(SHAPE, SHAPE)):
+
+'''
     # Switch RGB to BGR format (which ImageNet networks take)
 
     img = cv2.cvtColor(cv2.imread(filepath), cv2.COLOR_BGR2RGB)
@@ -46,8 +48,10 @@ def predict_from_file(filepath, reshape=(SHAPE, SHAPE)):
     if img is None:
         return []
 
+'''
+
      # Resize image to fit network input
-    img = cv2.resize(img, reshape)
+    img = cv2.resize(filepath, reshape)
 
     org_image = img.copy()
     img = np.swapaxes(img, 0, 2)
@@ -160,7 +164,7 @@ def main():
   while True:
      process_capture_queue()
      #allow a small queue of images to be captured
-     time.sleep(3)
+     time.sleep(10)
 
 if __name__ == "__main__":
     main()

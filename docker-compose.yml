@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  greengrass:
+    image: "{account}.dkr.ecr.{region}.amazonaws.com/{image:ver}"
+    volumes:
+      - ./certs:/greengrass/certs
+      - ./config:/greengrass/config
+      - ./deployment:/greengrass/ggc/deployment
+      - ./log:/greengrass/ggc/var/log
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "22:22"

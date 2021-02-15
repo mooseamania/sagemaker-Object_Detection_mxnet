@@ -1,7 +1,7 @@
 FROM armv7/armhf-ubuntu:16.04
 
 RUN apt-get update \
-  && apt-get install -y python3-pip python3-dev \
+  && apt-get install -y python3-pip python3.7-dev \
   && cd /usr/local/bin \
   && ln -s /usr/bin/python3 python \
   && pip3 install --upgrade pip
@@ -30,12 +30,12 @@ RUN cd /mxnet/build && /cmake-3.13.2/bin/cmake \
     -D USE_CUDA=0 \
      ../
 RUN cd /mxnet/build && make -j8
-RUN ln -s /usr/local/lib/python3.5/dist-packages/mxnet /mxnet
+RUN ln -s /usr/local/lib/python3.7/dist-packages/mxnet /mxnet
 
-RUN apt-get install -y python3-boto3
-#RUN pip3 install boto3
-#RUN pip3 install numpy
-RUN apt-get install -y python3-numpy
+#RUN apt-get install -y python3-boto3
+RUN pip3 install boto3
+RUN pip3 install numpy
+#RUN apt-get install -y python3-numpy
 
 
 RUN apt-get install -y gcc g++
